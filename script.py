@@ -121,13 +121,16 @@ light = bpy.data.objects.new(name="SunLight", object_data=light_data)
 bpy.context.collection.objects.link(light)
 light.location = (0, 0, 100)
 
-# Adiciona um fundo com textura procedural para o universo
+# Adiciona um fundo escuro para o universo
 def adicionar_fundo_universo():
     world = bpy.context.scene.world
     world.use_nodes = True
     tree = world.node_tree
 
     background = tree.nodes["Background"]
+    background.inputs["Color"].default_value = (0.0, 0.0, 0.0, 1.0)  # Define cor preta
+    background.inputs["Strength"].default_value = 0.1  # Mantém a emissão muito baixa
+
     texture_coord = tree.nodes.new(type="ShaderNodeTexCoord")
     noise_texture = tree.nodes.new(type="ShaderNodeTexNoise")
     color_ramp = tree.nodes.new(type="ShaderNodeValToRGB")
